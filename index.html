@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlassEats | Premium Food Delivery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Syne:wght@400..800&display=swap');
+        
+        :root {
+            --bg-grad: linear-gradient(135deg, #0a0a1a 0%, #0d1b2a 40%, #1a0a2e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-bg-hover: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-highlight: rgba(255, 255, 255, 0.2);
+            --primary: #FF6B35;
+            --secondary: #8B5CF6;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --spacing-1: 8px;
+            --spacing-2: 16px;
+            --spacing-3: 24px;
+            --spacing-4: 32px;
+            --spacing-5: 48px;
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            --radius-full: 50%;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-grad);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 700; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 var(--spacing-3); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-4); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-4); }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .flex-col { display: flex; flex-direction: column; }
+        .gap-2 { gap: var(--spacing-2); }
+        .gap-3 { gap: var(--spacing-3); }
+        .mt-2 { margin-top: var(--spacing-2); }
+        .mt-3 { margin-top: var(--spacing-3); }
+        .mt-4 { margin-top: var(--spacing-4); }
+        .mt-5 { margin-top: var(--spacing-5); }
+        .mb-4 { margin-bottom: var(--spacing-4); }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-radius: var(--radius-md);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-radius: var(--radius-md);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            padding: var(--spacing-3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: var(--glass-bg-hover);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .glass-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            color: var(--text-main);
+            padding: 10px 24px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        .glass-btn:hover {
+            background: var(--glass-bg-hover);
+            transform: scale(1.02);
+        }
+        .glass-btn:active {
+            transform: scale(0.98);
+        }
+        .primary-glow {
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 107, 53, 0.2);
+        }
+        .primary-glow:hover {
+            box-shadow: 0 0 25px rgba(255, 107, 53, 0.7);
+            background: rgba(255, 107, 53, 0.3);
+        }
+
+        .glass-input {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        .glass-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
+            background: rgba(0,0,0,0.4);
+        }
+        .glass-input::placeholder { color: var(--text-muted); }
+
+        .particles-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+        .blob-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; animation-delay: 0s; }
+        .blob-2 { width: 500px; height: 500px; background: var(--secondary); bottom: -200px; right: -100px; animation-delay: -5s; }
+        .blob-3 { width: 300px; height: 300px; background: #00f2fe; top: 40%; left: 40%; animation-delay: -10s; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.2); } }
+        
+        .food-particle { position: absolute; font-size: 24px; animation: floatUp 15s infinite linear; opacity: 0.3; }
+        @keyframes floatUp { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-100px) rotate(360deg); } }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            padding: var(--spacing-2) var(--spacing-4);
+            z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            margin: var(--spacing-2) var(--spacing-4);
+            transition: all 0.3s;
+        }
+        .navbar.scrolled {
+            margin: 0;
+            border-radius: 0;
+            border-left: none; border-right: none; border-top: none;
+            background: rgba(10, 10, 26, 0.8);
+        }
+        .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin: 0 15px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-right { display: flex; gap: var(--spacing-2); align-items: center; }
+        .cart-btn { position: relative; }
+        .cart-badge {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--primary); color: white;
+            font-size: 12px; font-weight: bold;
+            width: 20px; height: 20px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-badge.pop { transform: scale(1.5); }
+
+        .screen {
+            display: none; opacity: 0; transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            padding-top: 120px; padding-bottom: 60px;
+            min-height: 100vh; position: relative; z-index: 10;
+        }
+        .screen.active { opacity: 1; transform: translateY(0); }
+
+        .hero { text-align: center; padding: 40px 0; }
+        .hero h1 { font-size: 4rem; line-height: 1.1; margin-bottom: var(--spacing-2); }
+        .hero .gradient-text {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .search-bar { max-width: 600px; margin: var(--spacing-4) auto; display: flex; gap: var(--spacing-2); }
+
+        .category-scroll { display: flex; gap: var(--spacing-3); overflow-x: auto; padding: var(--spacing-2) 0; scrollbar-width: none; }
+        .category-scroll::-webkit-scrollbar { display: none; }
+        .category-chip { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.3s; }
+        .category-chip:hover { transform: translateY(-5px); }
+        .cat-icon { width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); transition: all 0.3s; box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
+        .category-chip:hover .cat-icon { background: rgba(255,255,255,0.15); border-color: var(--primary); box-shadow: 0 0 15px rgba(255,107,53,0.3); }
+        
+        .rest-card { cursor: pointer; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        .rest-img { height: 180px; border-radius: var(--radius-sm); margin-bottom: var(--spacing-2); display: flex; justify-content: center; align-items: center; font-size: 72px; position: relative; }
+        .badge-discount { position: absolute; top: 10px; left: 10px; background: var(--primary); color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5); z-index: 2; }
+        .rest-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 14px; margin-top: 12px; }
+        .rest-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .rest-rating { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 6px; font-size: 14px; display: flex; align-items: center; gap: 4px;}
+
+        .rest-hero { height: 300px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; padding: var(--spacing-4); position: relative; margin-bottom: var(--spacing-5); font-size: 100px; }
+        .rest-hero-info { position: absolute; bottom: -50px; left: 10%; right: 10%; text-align: center; }
+        .menu-layout { display: grid; grid-template-columns: 250px 1fr; gap: var(--spacing-5); margin-top: 80px; }
+        .menu-sidebar { position: sticky; top: 120px; height: fit-content; }
+        .menu-sidebar ul { list-style: none; }
+        .menu-sidebar li { padding: 12px 16px; cursor: pointer; border-radius: var(--radius-sm); transition: background 0.3s; margin-bottom: 4px; font-weight: 500; }
+        .menu-sidebar li:hover, .menu-sidebar li.active { background: rgba(255,255,255,0.1); color: var(--primary); border-left: 3px solid var(--primary); }
+        
+        .menu-item { display: flex; gap: var(--spacing-3); padding: var(--spacing-3); }
+        .menu-item-img { width: 120px; height: 120px; border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; font-size: 50px; flex-shrink: 0; }
+        .menu-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .menu-item-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .veg-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; margin-right: 8px; vertical-align: middle; }
+        .veg-dot.veg { background: #4ade80; border-color: #22c55e; }
+        .veg-dot.non-veg { background: #f87171; border-color: #ef4444; }
+        .add-btn { margin-top: auto; align-self: flex-start; padding: 6px 20px; font-size: 14px; }
+        
+        .qty-selector { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: var(--radius-full); border: 1px solid var(--glass-border); }
+        .qty-btn { background: none; border: none; color: white; cursor: pointer; font-size: 18px; width: 24px; height: 24px; display: flex; justify-content: center; align-items: center; transition: color 0.2s; }
+        .qty-btn:hover { color: var(--primary); }
+
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 199; display: none; backdrop-filter: blur(5px); }
+        .cart-panel {
+            position: fixed; top: 0; right: -450px; width: 450px; height: 100vh;
+            z-index: 200; padding: var(--spacing-4); transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; border-radius: 0;
+            border-left: 1px solid var(--glass-border); background: rgba(13, 27, 42, 0.85);
+            backdrop-filter: blur(25px);
+        }
+        .cart-panel.open { right: 0; }
+        .cart-close { position: absolute; top: var(--spacing-4); right: var(--spacing-4); cursor: pointer; font-size: 28px; transition: transform 0.3s; }
+        .cart-close:hover { transform: rotate(90deg); color: var(--primary); }
+        .cart-items { flex: 1; overflow-y: auto; margin: var(--spacing-4) 0; padding-right: 12px; }
+        .cart-items::-webkit-scrollbar { width: 6px; }
+        .cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-3); background: rgba(0,0,0,0.2); padding: 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); }
+        
+        .checkout-grid { display: grid; grid-template-columns: 1fr 400px; gap: var(--spacing-5); }
+        .payment-options { display: flex; gap: var(--spacing-3); margin-top: var(--spacing-3); }
+        .pay-option { flex: 1; padding: var(--spacing-3); border-radius: var(--radius-md); border: 1px solid var(--glass-border); text-align: center; cursor: pointer; transition: all 0.3s; background: rgba(0,0,0,0.2); }
+        .pay-option.selected { border-color: var(--primary); background: rgba(255, 107, 53, 0.1); box-shadow: 0 0 15px rgba(255, 107, 53, 0.2); transform: translateY(-3px); }
+        .pay-icon { font-size: 32px; margin-bottom: 8px; }
+
+        .timeline { display: flex; justify-content: space-between; margin-bottom: var(--spacing-5); position: relative; padding: 0 20px; }
+        .timeline::before { content: ''; position: absolute; top: 30px; left: 40px; right: 40px; height: 3px; background: rgba(255,255,255,0.1); z-index: -1; }
+        .timeline-step { display: flex; flex-direction: column; align-items: center; gap: 12px; opacity: 0.4; transition: all 0.5s; width: 140px; text-align: center; }
+        .step-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; font-size: 24px; transition: all 0.5s; }
+        .timeline-step.completed { opacity: 1; }
+        .timeline-step.completed .step-icon { background: rgba(139, 92, 246, 0.2); border-color: var(--secondary); color: var(--secondary); box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
+        .timeline-step.active { opacity: 1; transform: translateY(-5px); }
+        .timeline-step.active .step-icon { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 25px rgba(255,107,53,0.6); transform: scale(1.1); }
+        .timeline-step.active p { color: var(--primary); font-weight: 700; }
+        
+        .map-card { position: relative; height: 450px; overflow: hidden; display: flex; justify-content: center; align-items: center; border-radius: var(--radius-lg); background: #0d1b2a; }
+        svg.map { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { background: rgba(10, 10, 26, 0.9); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-left: 4px solid var(--primary); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.4s forwards 3s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+
+        .confetti { position: fixed; width: 12px; height: 12px; z-index: 9999; animation: fall 3s linear forwards; border-radius: 2px; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+        .shimmer { background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%); background-size: 200% 100%; animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+        @media (max-width: 900px) {
+            .grid-3 { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .checkout-grid, .menu-layout { grid-template-columns: 1fr; }
+            .menu-sidebar { position: static; display: flex; overflow-x: auto; margin-bottom: 20px; white-space: nowrap; }
+            .menu-sidebar li { flex: 0 0 auto; display: inline-block; }
+            .cart-panel { width: 100%; right: -100%; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.8rem; }
+            .timeline { flex-direction: column; gap: 30px; align-items: flex-start; padding-left: 40px; }
+            .timeline::before { top: 0; bottom: 0; left: 40px; width: 3px; height: 100%; }
+            .timeline-step { flex-direction: row; text-align: left; width: auto; }
+            .map-card { height: 300px; }
+        }
+        
+        .pulse-dot { width: 12px; height: 12px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="navbar glass" id="navbar">
+        <div class="logo" onclick="navigateTo('screen-home')">
+            <span style="font-size: 32px; filter: drop-shadow(0 0 10px rgba(255,107,53,0.5));">🍜</span> GlassEats
+        </div>
+        <div class="nav-links glass" style="padding: 10px 24px; border-radius: 30px;">
+            <a href="#" onclick="navigateTo('screen-home')">Home</a>
+            <a href="#" onclick="navigateTo('screen-delivery')">Delivery Partner</a>
+            <a href="#" onclick="navigateTo('screen-partner')">Restaurant Partner</a>
+        </div>
+        <div class="nav-right">
+            <button class="glass-btn cart-btn" onclick="toggleCart()">
+                🛒 Cart <span class="cart-badge" id="cart-badge">0</span>
+            </button>
+            <button class="glass-btn primary-glow" style="display:none;" id="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <div id="toast-container"></div>
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-panel" id="cart-sidebar">
+        <span class="cart-close" onclick="toggleCart()">✕</span>
+        <h2>Your Order</h2>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Cart items injected here -->
+        </div>
+        <div class="cart-summary mt-4" style="border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            <div class="flex-between mb-2"><span class="text-muted">Subtotal</span><span id="cart-subtotal">₹0</span></div>
+            <div class="flex-between mb-2"><span class="text-muted">Delivery Fee</span><span>₹40</span></div>
+            <div class="flex-between mb-4"><span class="text-muted">Taxes</span><span id="cart-tax">₹0</span></div>
+            <div class="flex-between mb-4"><h3 style="color: var(--primary);">Grand Total</h3><h3 id="cart-total" style="color: var(--primary);">₹0</h3></div>
+            <button class="glass-btn primary-glow" style="width: 100%; padding: 16px; font-size: 18px;" onclick="goToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <main>
+        <!-- SCREEN 1: HOME -->
+        <section id="screen-home" class="screen active container">
+            <div class="hero">
+                <h1 class="gradient-text">Crave It. Order It. Get It.</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;">Experience premium food delivery with real-time tracking and unmatched taste.</p>
+                
+                <div class="search-bar glass p-2" style="border-radius: 50px; padding: 8px 16px;">
+                    <span style="font-size: 24px; display: flex; align-items: center; padding: 0 10px;">📍</span>
+                    <input type="text" class="glass-input" style="border: none; background: transparent; padding: 10px;" placeholder="Enter delivery location...">
+                    <button class="glass-btn primary-glow">Find Food</button>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h3 class="mb-3">What's on your mind?</h3>
+                <div class="category-scroll">
+                    <div class="category-chip"><div class="cat-icon">🍕</div><span>Pizza</span></div>
+                    <div class="category-chip"><div class="cat-icon">🍔</div><span>Burgers</span></div>
+                    <div class="category-chip"><div class="cat-icon">🍣</div><span>Sushi</span></div>
+                    <div class="category-chip"><div class="cat-icon">🌮</div><span>Tacos</span></div>
+                    <div class="category-chip"><div class="cat-icon">🍜</div><span>Noodles</span></div>
+                    <div class="category-chip"><div class="cat-icon">🥗</div><span>Salads</span></div>
+                    <div class="category-chip"><div class="cat-icon">🍰</div><span>Desserts</span></div>
+                    <div class="category-chip"><div class="cat-icon">🥤</div><span>Drinks</span></div>
+                    <div class="category-chip"><div class="cat-icon">🍛</div><span>Indian</span></div>
+                </div>
+            </div>
+
+            <div class="mt-5 mb-5">
+                <h2 class="mb-4">Top Restaurants near you</h2>
+                <div class="grid-3" id="restaurant-grid">
+                    <!-- Restaurants injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: RESTAURANT PAGE -->
+        <section id="screen-restaurant" class="screen container">
+            <button class="glass-btn mb-4" onclick="navigateTo('screen-home')">← Back to Home</button>
+            <div class="rest-hero" id="r-hero">
+                <div id="r-emoji">🍛</div>
+                <div class="rest-hero-info glass-card">
+                    <h1 id="r-name" style="font-size: 2.5rem; margin-bottom: 8px;">Restaurant Name</h1>
+                    <div class="flex-between">
+                        <span id="r-cuisine" style="color: var(--text-muted); font-size: 1.1rem;">Cuisine</span>
+                        <div class="rest-rating" style="font-size: 1.1rem;"><span id="r-rating">4.5</span> ⭐</div>
+                    </div>
+                    <div class="mt-3 flex-gap" style="display: flex; gap: 20px; color: var(--text-muted);">
+                        <span>🕒 <span id="r-time">30 mins</span></span>
+                        <span>💳 Min <span id="r-min">₹150</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-layout">
+                <div class="menu-sidebar glass-card" style="padding: 16px;">
+                    <h3 class="mb-3">Menu Categories</h3>
+                    <ul>
+                        <li class="active">Recommended</li>
+                        <li>Starters</li>
+                        <li>Main Course</li>
+                        <li>Breads</li>
+                        <li>Desserts</li>
+                        <li>Beverages</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="mb-4">Recommended Items</h2>
+                    <div class="grid-2" id="menu-grid">
+                        <!-- Menu items injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: CHECKOUT -->
+        <section id="screen-checkout" class="screen container">
+            <button class="glass-btn mb-4" onclick="navigateTo('screen-home')">← Back</button>
+            <h1 class="mb-4">Checkout</h1>
+            
+            <div class="checkout-grid">
+                <div class="checkout-form glass-card">
+                    <h3 class="mb-4">Delivery Details</h3>
+                    <div class="grid-2 mb-3">
+                        <input type="text" class="glass-input" placeholder="First Name" value="Kushal">
+                        <input type="text" class="glass-input" placeholder="Last Name" value="Mandala">
+                    </div>
+                    <input type="text" class="glass-input mb-3" placeholder="Phone Number" value="+91 9876543210">
+                    <input type="text" class="glass-input mb-3" placeholder="Flat, House no., Building, Company, Apartment" value="Apt 404, Glass Tower">
+                    <input type="text" class="glass-input mb-3" placeholder="Area, Street, Sector, Village" value="Tech Park Road">
+                    <div class="grid-2 mb-4">
+                        <input type="text" class="glass-input" placeholder="City" value="Hyderabad">
+                        <input type="text" class="glass-input" placeholder="Pincode" value="500081">
+                    </div>
+
+                    <h3 class="mb-3 mt-4">Payment Method</h3>
+                    <div class="payment-options">
+                        <div class="pay-option selected" onclick="selectPay(this)">
+                            <div class="pay-icon">📱</div>
+                            <div>UPI</div>
+                        </div>
+                        <div class="pay-option" onclick="selectPay(this)">
+                            <div class="pay-icon">💳</div>
+                            <div>Card</div>
+                        </div>
+                        <div class="pay-option" onclick="selectPay(this)">
+                            <div class="pay-icon">💵</div>
+                            <div>Cash</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-summary glass-card" style="height: fit-content;">
+                    <h3 class="mb-4">Order Summary</h3>
+                    <div id="co-items" class="mb-4" style="max-height: 200px; overflow-y: auto;"></div>
+                    
+                    <div class="flex-between mb-3">
+                        <input type="text" class="glass-input" placeholder="Coupon Code" style="width: 70%;">
+                        <button class="glass-btn" style="padding: 12px 16px;">Apply</button>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                        <div class="flex-between mb-2"><span class="text-muted">Item Total</span><span id="co-subtotal">₹0</span></div>
+                        <div class="flex-between mb-2"><span class="text-muted">Delivery</span><span>₹40</span></div>
+                        <div class="flex-between mb-4"><span class="text-muted">Taxes</span><span id="co-tax">₹0</span></div>
+                        <div class="flex-between mb-4"><h2 style="color: var(--primary);">To Pay</h2><h2 id="co-total" style="color: var(--primary);">₹0</h2></div>
+                        <button class="glass-btn primary-glow" style="width: 100%; padding: 18px; font-size: 20px;" onclick="placeOrder()">Confirm Order</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: ORDER TRACKING -->
+        <section id="screen-tracking" class="screen container">
+            <h1 class="mb-2 text-center">Track Your Order</h1>
+            <p class="text-center text-muted mb-5">Order #ORD-8492049</p>
+
+            <div class="timeline" id="tracking-timeline">
+                <div class="timeline-step">
+                    <div class="step-icon">✅</div>
+                    <p>Order Placed</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">🍳</div>
+                    <p>Confirmed</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">👨‍🍳</div>
+                    <p>Preparing</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">🛵</div>
+                    <p>On the Way</p>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-icon">🎉</div>
+                    <p>Delivered</p>
+                </div>
+            </div>
+
+            <div class="map-card glass-card mb-4" style="padding: 0;">
+                <svg viewBox="0 0 1000 450" class="map" preserveAspectRatio="xMidYMid slice">
+                    <!-- Map background grids -->
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                    
+                    <!-- Roads Base -->
+                    <path d="M 150 350 L 300 350 L 300 150 L 600 150 L 600 250 L 850 250" stroke="rgba(255,255,255,0.1)" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Active Route -->
+                    <path id="active-route" d="M 150 350 L 300 350 L 300 150 L 600 150 L 600 250 L 850 250" stroke="var(--primary)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 15" />
+                    
+                    <!-- Pins -->
+                    <!-- Restaurant Pin -->
+                    <g transform="translate(150, 350)">
+                        <circle cx="0" cy="0" r="15" fill="var(--primary)" opacity="0.2" class="shimmer" />
+                        <circle cx="0" cy="0" r="8" fill="var(--primary)" />
+                        <text x="0" y="-15" fill="white" font-size="14" text-anchor="middle" font-family="var(--font-body)">Restaurant</text>
+                    </g>
+                    
+                    <!-- Customer Pin -->
+                    <g transform="translate(850, 250)">
+                        <circle cx="0" cy="0" r="15" fill="var(--secondary)" opacity="0.2" class="shimmer" />
+                        <circle cx="0" cy="0" r="8" fill="var(--secondary)" />
+                        <text x="0" y="-15" fill="white" font-size="14" text-anchor="middle" font-family="var(--font-body)">Home</text>
+                    </g>
+
+                    <!-- Rider -->
+                    <g id="rider-icon" transform="translate(150, 350)">
+                        <circle cx="0" cy="0" r="16" fill="white" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"/>
+                        <text x="0" y="5" font-size="16" text-anchor="middle">🛵</text>
+                    </g>
+                </svg>
+                
+                <div class="glass-card" style="position: absolute; top: 20px; right: 20px; background: rgba(10,10,26,0.8); backdrop-filter: blur(10px); padding: 12px 24px;">
+                    <span class="text-muted">ETA:</span> <strong id="eta-timer" style="font-size: 24px; color: var(--primary);">28:00</strong>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-card flex-between">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <img src="https://ui-avatars.com/api/?name=Rajan+K&background=FF6B35&color=fff&rounded=true" alt="Rider" style="width: 60px; height: 60px; border-radius: 50%;">
+                        <div>
+                            <h3 style="margin-bottom: 4px;">Rajan K</h3>
+                            <p class="text-muted">TS 09 AB 1234 • 4.9 ⭐</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="glass-btn" style="border-radius: 50%; width: 50px; height: 50px; padding: 0;">📞</button>
+                        <button class="glass-btn" style="border-radius: 50%; width: 50px; height: 50px; padding: 0;">💬</button>
+                    </div>
+                </div>
+                <div class="glass-card flex-center">
+                    <button class="glass-btn primary-glow" style="width: 100%; padding: 16px;">Share Live Status</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: DELIVERY PARTNER DASHBOARD -->
+        <section id="screen-delivery" class="screen container">
+            <div class="glass-card flex-between mb-4">
+                <div>
+                    <h2 style="display:flex; align-items:center; gap:10px;">Rajan K <div class="pulse-dot"></div></h2>
+                    <p class="text-muted">Delivery Partner Dashboard</p>
+                </div>
+                <div class="glass" style="padding: 8px 20px; border-radius: 30px; border-color: #4ade80;">
+                    <span style="color: #4ade80; font-weight: bold;">● Online</span>
+                </div>
+            </div>
+
+            <div class="grid-3 mb-4">
+                <div class="glass-card text-center">
+                    <p class="text-muted mb-2">Today's Earnings</p>
+                    <h2 style="color: var(--primary); font-size: 2.5rem;">₹850</h2>
+                </div>
+                <div class="glass-card text-center">
+                    <p class="text-muted mb-2">Trips Completed</p>
+                    <h2 style="font-size: 2.5rem;">12</h2>
+                </div>
+                <div class="glass-card text-center">
+                    <p class="text-muted mb-2">Rating</p>
+                    <h2 style="font-size: 2.5rem;">4.9 ⭐</h2>
+                </div>
+            </div>
+
+            <div class="glass-card mb-4 primary-glow" style="animation: pulseCard 2s infinite alternate;">
+                <div class="flex-between mb-3">
+                    <h3 style="color: var(--primary);">🔔 New Order Alert!</h3>
+                    <span class="glass" style="padding: 4px 12px; border-radius: 12px;">2 mins ago</span>
+                </div>
+                <div class="grid-2 mb-3">
+                    <div>
+                        <p class="text-muted text-sm">Pickup</p>
+                        <h4>Spice Garden</h4>
+                        <p class="text-sm">Jubilee Hills</p>
+                    </div>
+                    <div>
+                        <p class="text-muted text-sm">Drop</p>
+                        <h4>Kushal Mandala</h4>
+                        <p class="text-sm">Tech Park Road</p>
+                    </div>
+                </div>
+                <div class="flex-between mb-4">
+                    <span>Distance: <strong>4.2 km</strong></span>
+                    <span>Est. Earning: <strong style="color: #4ade80;">₹65</strong></span>
+                </div>
+                <div style="display: flex; gap: 16px;">
+                    <button class="glass-btn primary-glow" style="flex: 2; padding: 14px;" onclick="showToast('Order Accepted! Opening Navigation...')">Accept Order</button>
+                    <button class="glass-btn" style="flex: 1; padding: 14px;">Decline</button>
+                </div>
+            </div>
+
+            <div class="map-card glass-card" style="height: 300px;">
+                <div style="position: absolute; inset: 0; background: url('https://upload.wikimedia.org/wikipedia/commons/b/bd/Google_Maps_Logo_2020.svg') center/20% no-repeat, var(--glass-bg); opacity: 0.5;"></div>
+                <div class="glass-card" style="position: absolute; bottom: 20px; left: 20px; right: 20px; background: rgba(10,10,26,0.9);">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <div style="font-size: 32px;">⬆️</div>
+                        <div>
+                            <h4>Head north on Road No. 36</h4>
+                            <p class="text-muted">Turn right in 500m</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 6: RESTAURANT PARTNER DASHBOARD -->
+        <section id="screen-partner" class="screen container">
+            <div class="glass-card flex-between mb-4">
+                <div>
+                    <h2>Spice Garden <span style="font-size: 16px; background: var(--primary); padding: 4px 8px; border-radius: 8px; margin-left: 10px;">Restaurant Partner</span></h2>
+                    <p class="text-muted">Dashboard Overview</p>
+                </div>
+                <button class="glass-btn">Manage Menu</button>
+            </div>
+
+            <div class="grid-3 mb-5">
+                <div class="glass-card">
+                    <p class="text-muted mb-2">Today's Sales</p>
+                    <h2 style="color: #4ade80; font-size: 2rem;">₹12,450</h2>
+                    <p class="text-sm text-muted mt-2">+15% from yesterday</p>
+                </div>
+                <div class="glass-card">
+                    <p class="text-muted mb-2">Active Orders</p>
+                    <h2 style="color: var(--primary); font-size: 2rem;">8</h2>
+                    <p class="text-sm text-muted mt-2">3 pending acceptance</p>
+                </div>
+                <div class="glass-card">
+                    <p class="text-muted mb-2">Items Out of Stock</p>
+                    <h2 style="color: #f87171; font-size: 2rem;">2</h2>
+                    <p class="text-sm text-muted mt-2">Update inventory</p>
+                </div>
+            </div>
+
+            <h3 class="mb-4">Live Orders</h3>
+            <div class="flex-col gap-3">
+                <!-- Order Card 1 -->
+                <div class="glass-card" style="border-left: 4px solid var(--primary);">
+                    <div class="flex-between mb-3">
+                        <div>
+                            <h4>Order #ORD-8492049</h4>
+                            <p class="text-muted text-sm">Received at 11:42 AM</p>
+                        </div>
+                        <span class="glass" style="padding: 6px 12px; border-radius: 8px; color: var(--primary);">New</span>
+                    </div>
+                    <div class="mb-3">
+                        <p>1x Butter Chicken</p>
+                        <p>2x Garlic Naan</p>
+                        <p>1x Gulab Jamun</p>
+                    </div>
+                    <div class="flex-between align-center">
+                        <h4>₹470</h4>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="glass-btn" onclick="showToast('Order Accepted')">Accept</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Card 2 -->
+                <div class="glass-card" style="border-left: 4px solid #eab308;">
+                    <div class="flex-between mb-3">
+                        <div>
+                            <h4>Order #ORD-8492045</h4>
+                            <p class="text-muted text-sm">Received at 11:30 AM</p>
+                        </div>
+                        <span class="glass" style="padding: 6px 12px; border-radius: 8px; color: #eab308;">Preparing</span>
+                    </div>
+                    <div class="mb-3">
+                        <p>2x Chicken Biryani</p>
+                    </div>
+                    <div class="flex-between align-center">
+                        <h4>₹640</h4>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="glass-btn primary-glow" onclick="showToast('Marked as Ready')">Mark Ready</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Card 3 -->
+                <div class="glass-card" style="border-left: 4px solid #4ade80;">
+                    <div class="flex-between mb-3">
+                        <div>
+                            <h4>Order #ORD-8492040</h4>
+                            <p class="text-muted text-sm">Received at 11:15 AM</p>
+                        </div>
+                        <span class="glass" style="padding: 6px 12px; border-radius: 8px; color: #4ade80;">Ready for Pickup</span>
+                    </div>
+                    <div class="mb-3">
+                        <p>1x Paneer Tikka Masala</p>
+                        <p>3x Roti</p>
+                    </div>
+                    <div class="flex-between align-center">
+                        <h4>₹290</h4>
+                        <p class="text-muted">Waiting for Rider (Rajan K)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // DATA
+        const restaurants = [
+            { id: 1, name: 'Spice Garden', cuisine: 'Indian', rating: 4.3, time: '30 mins', min: 150, discount: '35% OFF', emoji: '🍛' },
+            { id: 2, name: 'Tokyo Bites', cuisine: 'Japanese', rating: 4.7, time: '40 mins', min: 200, discount: '', emoji: '🍣' },
+            { id: 3, name: 'Burger Republic', cuisine: 'American', rating: 4.5, time: '25 mins', min: 100, discount: '20% OFF', emoji: '🍔' },
+            { id: 4, name: 'Pizza Nova', cuisine: 'Italian', rating: 4.2, time: '35 mins', min: 120, discount: '', emoji: '🍕' },
+            { id: 5, name: 'Green Bowl', cuisine: 'Healthy', rating: 4.8, time: '20 mins', min: 180, discount: '10% OFF', emoji: '🥗' },
+            { id: 6, name: 'Taco Fiesta', cuisine: 'Mexican', rating: 4.4, time: '30 mins', min: 130, discount: '', emoji: '🌮' },
+            { id: 7, name: 'Noodle Ninja', cuisine: 'Asian', rating: 4.6, time: '35 mins', min: 150, discount: 'FREE DELIVERY', emoji: '🍜' },
+            { id: 8, name: 'Sweet Tooth', cuisine: 'Desserts', rating: 4.9, time: '15 mins', min: 80, discount: '', emoji: '🍰' },
+            { id: 9, name: 'Wrap God', cuisine: 'Fast Food', rating: 4.1, time: '25 mins', min: 100, discount: '15% OFF', emoji: '🌯' },
+            { id: 10, name: 'Curry House', cuisine: 'Indian', rating: 4.5, time: '40 mins', min: 200, discount: '', emoji: '🍲' },
+            { id: 11, name: 'Sushi Master', cuisine: 'Japanese', rating: 4.8, time: '45 mins', min: 250, discount: '', emoji: '🍱' },
+            { id: 12, name: 'Morning Brew', cuisine: 'Cafe', rating: 4.7, time: '20 mins', min: 90, discount: '10% OFF', emoji: '☕' }
+        ];
+
+        const generateMenu = (rId, rName, rEmoji) => [
+            { id: rId*10+1, name: \`Signature \${rName} Special\`, desc: 'Chef\\'s special preparation with premium ingredients', price: 280, veg: false, emoji: rEmoji },
+            { id: rId*10+2, name: 'Classic Delight', desc: 'The traditional recipe passed down generations', price: 220, veg: true, emoji: '🥘' },
+            { id: rId*10+3, name: 'Spicy Volcano', desc: 'Extra hot and spicy for the brave ones', price: 250, veg: false, emoji: '🌶️' },
+            { id: rId*10+4, name: 'Healthy Choice Bowl', desc: 'Low calories, high protein, great taste', price: 310, veg: true, emoji: '🥗' },
+            { id: rId*10+5, name: 'Family Combo Feast', desc: 'Perfect for sharing. Serves 3-4 people', price: 799, veg: true, emoji: '🍱' },
+            { id: rId*10+6, name: 'Sweet Ending Dessert', desc: 'Rich, creamy and melts in your mouth', price: 150, veg: true, emoji: '🍨' }
+        ];
+
+        // STATE
+        let cart = JSON.parse(localStorage.getItem('glasseats_cart')) || [];
+        let currentRest = null;
+
+        // INIT
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRestaurants();
+            updateCartBadge();
+            generateParticles();
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                if(window.scrollY > 50) document.getElementById('navbar').classList.add('scrolled');
+                else document.getElementById('navbar').classList.remove('scrolled');
+            });
+        });
+
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        function generateParticles() {
+            const container = document.getElementById('particles');
+            const emojis = ['🍔','🍕','🌮','🍣','🍜','🥗','🍰','🍩','🍟','🍦'];
+            for(let i=0; i<15; i++) {
+                const el = document.createElement('div');
+                el.className = 'food-particle';
+                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = (15 + Math.random() * 10) + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                el.style.fontSize = (20 + Math.random() * 20) + 'px';
+                container.appendChild(el);
+            }
+        }
+
+        // RENDER FUNCTIONS
+        function renderRestaurants() {
+            const grid = document.getElementById('restaurant-grid');
+            grid.innerHTML = restaurants.map(r => \`
+                <div class="rest-card glass-card" onclick="openRestaurant(\${r.id})">
+                    \${r.discount ? \`<div class="badge-discount">\${r.discount}</div>\` : ''}
+                    <div class="rest-img" style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.2)); border: 1px solid rgba(255,255,255,0.05);">
+                        \${r.emoji}
+                    </div>
+                    <div class="rest-title">
+                        <span>\${r.name}</span>
+                        <div class="rest-rating">\${r.rating} ⭐</div>
+                    </div>
+                    <div class="rest-meta">
+                        <span>\${r.cuisine}</span>
+                        <span>\${r.time}</span>
+                    </div>
+                </div>
+            \`).join('');
+        }
+
+        function openRestaurant(id) {
+            const r = restaurants.find(x => x.id === id);
+            currentRest = r;
+            document.getElementById('r-name').innerText = r.name;
+            document.getElementById('r-cuisine').innerText = r.cuisine;
+            document.getElementById('r-rating').innerText = r.rating;
+            document.getElementById('r-time').innerText = r.time;
+            document.getElementById('r-min').innerText = '₹'+r.min;
+            document.getElementById('r-emoji').innerText = r.emoji;
+            
+            const menu = generateMenu(r.id, r.name, r.emoji);
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = menu.map(m => {
+                const inCart = cart.find(x => x.id === m.id);
+                const qty = inCart ? inCart.qty : 0;
+                
+                return \`
+                <div class="menu-item glass-card">
+                    <div class="menu-item-info">
+                        <div class="menu-item-title">
+                            <span class="veg-dot \${m.veg ? 'veg' : 'non-veg'}"></span>\${m.name}
+                        </div>
+                        <p class="text-muted mb-2 text-sm">\${m.desc}</p>
+                        <h4 class="mb-3">₹\${m.price}</h4>
+                        
+                        \${qty > 0 ? \`
+                            <div class="qty-selector">
+                                <button class="qty-btn" onclick="updateQty(\${m.id}, -1, event)">-</button>
+                                <span>\${qty}</span>
+                                <button class="qty-btn" onclick="updateQty(\${m.id}, 1, event)">+</button>
+                            </div>
+                        \` : \`
+                            <button class="glass-btn primary-glow add-btn" onclick="addToCart(\${m.id}, '\${m.name}', \${m.price}, event)">+ Add</button>
+                        \`}
+                    </div>
+                    <div class="menu-item-img" style="background: rgba(255,255,255,0.05);">
+                        \${m.emoji}
+                    </div>
+                </div>
+            \`}).join('');
+            
+            navigateTo('screen-restaurant');
+        }
+
+        // CART FUNCTIONS
+        function addToCart(id, name, price, e) {
+            e.stopPropagation();
+            cart.push({ id, name, price, qty: 1 });
+            saveCart();
+            showToast(\`Added \${name} to cart!\`);
+            if(currentRest) openRestaurant(currentRest.id); // re-render buttons
+            
+            const badge = document.getElementById('cart-badge');
+            badge.classList.add('pop');
+            setTimeout(() => badge.classList.remove('pop'), 300);
+        }
+
+        function updateQty(id, change, e) {
+            if(e) e.stopPropagation();
+            const item = cart.find(x => x.id === id);
+            if(item) {
+                item.qty += change;
+                if(item.qty <= 0) {
+                    cart = cart.filter(x => x.id !== id);
+                }
+                saveCart();
+                if(currentRest) openRestaurant(currentRest.id);
+                renderCart();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('glasseats_cart', JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-badge').innerText = totalItems;
+        }
+
+        function toggleCart() {
+            const panel = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            if(panel.classList.contains('open')) {
+                panel.classList.remove('open');
+                overlay.style.display = 'none';
+            } else {
+                renderCart();
+                panel.classList.add('open');
+                overlay.style.display = 'block';
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            if(cart.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center mt-5">Your cart is empty.</p>';
+                updateCartTotals(0);
+                return;
+            }
+
+            container.innerHTML = cart.map(item => \`
+                <div class="cart-item">
+                    <div style="flex:1;">
+                        <h4 style="margin-bottom: 4px;">\${item.name}</h4>
+                        <p class="text-muted text-sm">₹\${item.price}</p>
+                    </div>
+                    <div class="qty-selector">
+                        <button class="qty-btn" onclick="updateQty(\${item.id}, -1)">-</button>
+                        <span>\${item.qty}</span>
+                        <button class="qty-btn" onclick="updateQty(\${item.id}, 1)">+</button>
+                    </div>
+                    <div style="width: 60px; text-align: right; font-weight: bold;">
+                        ₹\${item.price * item.qty}
+                    </div>
+                </div>
+            \`).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            updateCartTotals(subtotal);
+        }
+
+        function updateCartTotals(subtotal) {
+            const tax = Math.round(subtotal * 0.05);
+            const delivery = subtotal > 0 ? 40 : 0;
+            const total = subtotal + tax + delivery;
+            
+            document.getElementById('cart-subtotal').innerText = formatCurrency(subtotal);
+            document.getElementById('cart-tax').innerText = formatCurrency(tax);
+            document.getElementById('cart-total').innerText = formatCurrency(total);
+            
+            // For checkout screen
+            const coSub = document.getElementById('co-subtotal');
+            if(coSub) {
+                coSub.innerText = formatCurrency(subtotal);
+                document.getElementById('co-tax').innerText = formatCurrency(tax);
+                document.getElementById('co-total').innerText = formatCurrency(total);
+            }
+        }
+
+        function goToCheckout() {
+            if(cart.length === 0) {
+                showToast("Cart is empty!");
+                return;
+            }
+            toggleCart();
+            
+            const coItems = document.getElementById('co-items');
+            coItems.innerHTML = cart.map(item => \`
+                <div class="flex-between mb-2">
+                    <span>\${item.qty}x \${item.name}</span>
+                    <span>₹\${item.price * item.qty}</span>
+                </div>
+            \`).join('');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            updateCartTotals(subtotal);
+            
+            navigateTo('screen-checkout');
+        }
+
+        function selectPay(el) {
+            document.querySelectorAll('.pay-option').forEach(p => p.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function placeOrder() {
+            createConfetti();
+            showToast("Order Placed Successfully!");
+            cart = [];
+            saveCart();
+            
+            setTimeout(() => {
+                navigateTo('screen-tracking');
+                startTrackingAnimation();
+            }, 1000);
+        }
+
+        // NAVIGATION & UTILS
+        function navigateTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+                setTimeout(() => s.style.display = 'none', 300);
+            });
+            
+            const target = document.getElementById(screenId);
+            setTimeout(() => {
+                target.style.display = 'block';
+                void target.offsetWidth; // force reflow
+                target.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = \`<span style="font-size:20px;">🔔</span> \${msg}\`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B35', '#8B5CF6', '#4ade80', '#38bdf8', '#facc15'];
+            for(let i=0; i<100; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.background = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = -10 + 'px';
+                conf.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                conf.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 4000);
+            }
+        }
+
+        // TRACKING ANIMATION
+        function startTrackingAnimation() {
+            // Reset Route
+            const route = document.getElementById('active-route');
+            const rider = document.getElementById('rider-icon');
+            
+            if(route) {
+                route.style.transition = 'none';
+                route.style.strokeDashoffset = '1500';
+                
+                // Path Animation
+                setTimeout(() => {
+                    route.style.transition = 'stroke-dashoffset 15s linear';
+                    route.style.strokeDashoffset = '0';
+                    
+                    // Rider Animation
+                    const pathLen = route.getTotalLength();
+                    let start = null;
+                    function animateRider(timestamp) {
+                        if(!start) start = timestamp;
+                        let progress = (timestamp - start) / 15000;
+                        if(progress > 1) progress = 1;
+                        
+                        const pt = route.getPointAtLength(progress * pathLen);
+                        rider.setAttribute('transform', \`translate(\${pt.x}, \${pt.y})\`);
+                        
+                        if(progress < 1) requestAnimationFrame(animateRider);
+                    }
+                    requestAnimationFrame(animateRider);
+                }, 500);
+            }
+
+            // Timeline Animation
+            let currentStep = 0;
+            const steps = document.querySelectorAll('#tracking-timeline .timeline-step');
+            steps.forEach(s => { s.className = 'timeline-step'; });
+            steps[0].classList.add('active');
+            
+            const interval = setInterval(() => {
+                if(currentStep < steps.length - 1) {
+                    steps[currentStep].classList.remove('active');
+                    steps[currentStep].classList.add('completed');
+                    currentStep++;
+                    steps[currentStep].classList.add('active');
+                } else {
+                    clearInterval(interval);
+                    showToast("Order Delivered! 🎉");
+                    steps[currentStep].classList.remove('active');
+                    steps[currentStep].classList.add('completed');
+                }
+            }, 3750); // 15 seconds / 4 jumps
+
+            // ETA Countdown
+            let eta = 28 * 60;
+            const etaEl = document.getElementById('eta-timer');
+            const etaInt = setInterval(() => {
+                eta--;
+                const m = Math.floor(eta / 60);
+                const s = eta % 60;
+                etaEl.innerText = \`\${m}:\${s < 10 ? '0'+s : s}\`;
+                if(eta <= 0) clearInterval(etaInt);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
